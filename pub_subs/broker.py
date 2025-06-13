@@ -5,7 +5,7 @@ lock = threading.Lock()
 def handle_client(conn, addr):
     try:
         msg_type = conn.recv(1024).decode().strip()
-        if msg_type.startwith("PUB:"):
+        if msg_type.startswith("PUB:"):
             parts = msg_type[4:].split(":", 1)
             if len(parts) != 2:
                 conn.close()
