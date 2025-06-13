@@ -6,10 +6,10 @@ def main():
     print("Publicador listo. Usa formato: <topic>:<mensaje>")
     while True:
         try:
-            user_input = input('>> ')
+            user_input = input(">> ")
             if user_input.lower() in ['exit', 'quit']:
                 break
-            topic,message = user_input.split(':',1)
+            topic,message = user_input.split('.',1)
             msg = f"PUB:{topic}:{message}"
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.connect((broker_host,broker_port))
