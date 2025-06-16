@@ -7,9 +7,14 @@ import time
 def handle_peer(conn, addr):
     try:
         print(f"[+] Conectado desde {addr}")
-        data = conn.recv(1024).decode()
-        print(f"[{addr}] → {data}")
-        conn.sendall(f"Echo desde {conn.getsockname()}".encode())
+    
+    
+        data = conn.recv(1024) #Lo que recibimos se convierte en binario
+        with open(f"archivo_recibido_{int(time.time())}.txt", "wb") as f: 
+            f.write(data)
+        print(f"[{addr}] → Archivo recibido y guardado como 'archivo_recibido.txt'")
+        conn.sendall(f"Archivo recibido correctamente en {conn.getsockname()}".encode())
+
     except Exception as e:
         print(f"[!] Error con {addr}: {e}")
     finally:
@@ -32,16 +37,22 @@ def connect_to_peers(peers, message):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.connect((host, port))
-                sock.sendall(message.encode())
+
+
+                with open(message, "rb") as f:
+                    sock.sendall(f.read())
+
                 response = sock.recv(1024).decode()
                 print(f"[{host}:{port}] ⇐ {response}")
         except Exception as e:
             print(f"[!] No se pudo conectar a {host}:{port} - {e}")
 
 # Programa principal
-if __name__ == "__main__": #debe de tener dos _
-    if len(sys.argv) < 3:
-        print("Uso: python peer_node.py <mi_puerto> <peer1_host:port> [<peer2_host:port> ...]")
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+
+
+        print("Uso: python peer_node.py <mi_puerto> [<peer1_host:port> ...]")
         sys.exit(1)
 
     my_port = int(sys.argv[1])
@@ -59,4 +70,4 @@ if __name__ == "__main__": #debe de tener dos _
         mensaje = input("Mensaje a enviar (o 'exit'): ")
         if mensaje.lower() == 'exit':
             break
-        connect_to_peers(peers, mensaje)
+        connect_to_peers(peers,mensaje)
