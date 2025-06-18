@@ -17,10 +17,10 @@ def main():
     sock.connect((broker_host,broker_port))
     sock.sendall(f"SUB:{topic}".encode()) 
     print(f"[SUBSCRIPCION] Suscrito a '{topic}'. Esperando mensaje...")
-    threading.Thread(target=listen_to_broker,args={sock,},deamon=True).start() 
+    threading.Thread(target=listen_to_broker,args={sock,},daemon=True).start() 
     try:
         while True:
-            pass #Mantener activo
+            pass #Mantener activo Se puede sustituir con un Sleep haciendo un poling
     except KeyboardInterrupt:
         print("Saliendo ...")
         sock.close()

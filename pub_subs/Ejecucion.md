@@ -8,7 +8,6 @@ python broker.py
 
 Se mostrará como resultado:
 ~~~bash
-~~~
 [BROKER] Escuchando en 0.0.0.0:14000...
 ~~~
 
