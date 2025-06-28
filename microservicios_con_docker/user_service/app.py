@@ -1,21 +1,17 @@
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 users = {}
 
-#POST: Inserciones  --> Create       \
-#GET: Obtener datos --> Read          \  CRUD´S
-#UPDATE: Actualizar datos --> Update  /
-#DELETE: Borrado de datos --> Delete /
-
-@app.route("/users", methods=["POST"]) # https://localhost:80/users
+@app.route("/users", methods=["POST"])
 def create_user():
     data = request.get_json()
     user_id = str(len(users) + 1)
     users[user_id] = {"id": user_id, "name": data["name"]}
     return jsonify(users[user_id]), 201
 
-@app.route("/users/<user_id>", methods=["GET"]) #https://localhost:80/users/1
+@app.route("/users/<user_id>", methods=["GET"])
 def get_user(user_id):
     user = users.get(user_id)
     if not user:
@@ -23,4 +19,4 @@ def get_user(user_id):
     return jsonify(user)
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(host="0.0.0.0", port=5001)

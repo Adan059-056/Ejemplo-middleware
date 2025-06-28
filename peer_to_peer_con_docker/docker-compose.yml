@@ -1,0 +1,7 @@
+
+version: "3"
+services:
+  peer_to_peer_con_docker:
+    build: ./peer_to_peer
+    ports:
+      - "1000:1000"
